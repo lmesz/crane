@@ -12,7 +12,10 @@ def get_registries():
 
 @app.route("/registry", methods=["POST"])
 def add_registry():
-    registries.add_registry(request.get_json())
+    data = request.get_json()
+    if (('name' and 'url' and 'username' and 'password' and 'provider') not in data):
+        return ""
+    registries.add_registry(data)
     return ""
 
 @app.route("/registry/<id>", methods=["POST"])

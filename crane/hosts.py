@@ -9,7 +9,10 @@ host = HostProvider(SSHConnection())
 
 @app.route('/host', methods=['POST'])
 def add_host():
-    host.add_host(request.get_json())
+    data = request.get_json()
+    if (('name' and 'host' and 'username' and ('password' or 'sshkey')) not in data):
+        return ""
+    host.add_host(data)
     return ""
 
 
