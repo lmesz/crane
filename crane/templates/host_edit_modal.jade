@@ -1,17 +1,17 @@
 div.modal-header Add Host
 div.modal-cont
   form.form-horizontal(role="form",name="host",novalidate='novalidate')
-    .form-group
+    .form-group(ng-class="{'has-error': host.Name.$invalid && host.Name.$dirty}")
       label.control-label.col-sm-2(for="name") Name:
       .col-sm-10
         input#name.form-control(ng-model="host.name", name="Name", ng-minlength="3", required)
         div.help-block(ng-messages="host.Name.$error", ng-messages-include="frontend/messages.html", ng-if="host.Name.$dirty")
-    .form-group
+    .form-group(ng-class="{'has-error': host.Host.$invalid && host.Host.$dirty}")
       label.control-label.col-sm-2(for="host") Host:
       .col-sm-10
         input#host.form-control(ng-model="host.host", name="Host", ng-minlength="3", required)
         div.help-block(ng-messages="host.Host.$error", ng-messages-include="frontend/messages.html", ng-if="host.Host.$dirty")
-    .form-group
+    .form-group(ng-class="{'has-error': host.Username.$invalid && host.Username.$dirty}")
       label.control-label.col-sm-2(for="username") Username:
       .col-sm-10
         input#username.form-control(ng-model="host.username", name="Username", ng-minlength="3", required)
@@ -19,8 +19,7 @@ div.modal-cont
     .form-group
       label.control-label.col-sm-2(for="password") Password:
       .col-sm-10
-        input#password.form-control(ng-model="host.password",type="password", name="Password", required)
-        div.help-block(ng-messages="host.Password.$error", ng-messages-include="frontend/messages.html", ng-if="host.Password.$dirty")
+        input#password.form-control(ng-model="host.password",type="password")
     .form-group
       label.control-label.col-sm-2(for="sshkey") SSH key:
       .col-sm-10
