@@ -1,6 +1,6 @@
 (function(){
 
-angular.module('crane', ['ngRoute','ui.bootstrap'])
+angular.module('crane', ['ngRoute','ui.bootstrap','ngMessages'])
 
 .config(separatorConfig)
 .config(router);
