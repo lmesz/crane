@@ -90,13 +90,24 @@ function HostController($scope, $http, $modal) {
     $scope.edit_host(new Host());
   };
 
-  
+  function showError(reason) {
+     var modalInstance = $modal.open({
+      templateUrl: '/frontend/error.jade',
+      controller: function($scope, $modalInstance) {
+        $scope.reason = reason.data;
+
+        $scope.close = function () {
+          $modalInstance.dismiss('close');
+        };
+      },
+    });
+  };
 
   function save_new_host($event) {
     if ($scope.add_host.host.id) {
-      $http.post("/host/" + String($scope.add_host.host.id), $scope.add_host.host);
+      $http.post("/host/" + String($scope.add_host.host.id), $scope.add_host.host).then(function(reason){}, function(reason){showError(reason)});
     } else {
-      $http.post("/host", $scope.add_host.host);
+      $http.post("/host", $scope.add_host.host).then(function(data){}, function(data){showError(data)});
     }
     $scope.load_hosts();
   }

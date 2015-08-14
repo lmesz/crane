@@ -9,15 +9,19 @@ host = HostProvider(SSHConnection())
 
 @app.route('/host', methods=['POST'])
 def add_host():
-    host_id = host.add_host(request.get_json())
-    return jsonify(id=host_id)
-
+    try:
+        host_id = host.add_host(request.get_json())
+        return jsonify(id=host_id)
+    except:
+        return "Failed to add host to database!", 500
 
 @app.route('/host/<id>', methods=['POST'])
 def update_host(id):
-    host.update_host(id, request.get_json())
-    return ""
-
+    try:
+        host.update_host(id, request.get_json())
+        return ""
+    except:
+        return "Failed to update host in database!", 500
 
 @app.route('/host', methods=['GET'])
 def query_hosts():
@@ -31,5 +35,8 @@ def get_host(id):
 
 @app.route('/host/<id>', methods=['DELETE'])
 def delete_host(id):
-    host.delete_host(id)
-    return ""
+    try:
+        host.delete_host(id)
+        return ""
+    except:
+        return "Failed to delete host from database!", 500
