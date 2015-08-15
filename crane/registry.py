@@ -13,19 +13,27 @@ def get_registries():
 
 @app.route("/registry", methods=["POST"])
 def add_registry():
-    registries.add_registry(request.get_json())
-    return ""
+    try:
+        registries.add_registry(request.get_json())
+        return ""
+    except:
+        return "Failed to add registry to database!", 500
 
 @app.route("/registry/<id>", methods=["POST"])
 def update_registry(id):
-    registries.update_registry(id, request.get_json())
-    return ""
+    try:
+        registries.update_registry(id, request.get_json())
+        return ""
+    except:
+        return "Failed to update registry in database!", 500
 
 @app.route("/registry/<registry_id>", methods=["DELETE"])
 def delete_registry(registry_id):
-    registries.delete_registry(registry_id)
-    return ""
-
+    try:
+        registries.delete_registry(registry_id)
+        return ""
+    except:
+        return "Failed to delete registry from database!", 500
 
 @app.route("/registry/<registry_id>/repository/<namespace>/<repo_name>/tags")
 @app.route("/registry/<registry_id>/repository/<repo_name>/tags", defaults={'namespace': ''})

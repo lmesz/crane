@@ -3,7 +3,7 @@
 angular.module("crane")
 .controller("RegistryControl", RegistryControl);
 
-RegistryControl.$inject = ['$scope', '$http', '$modal'];
+RegistryControl.$inject = ['$scope', '$http', '$modal', 'commons'];
 
 function Registry(name, url, username, password, provider) {
   this.name = name;
@@ -13,7 +13,7 @@ function Registry(name, url, username, password, provider) {
   this.provider = provider;
 }
 
-function RegistryControl($scope, $http, $modal) {
+function RegistryControl($scope, $http, $modal, commons) {
   var providers = ['dockerhub','private']
 
   $scope.registries = [];
@@ -102,14 +102,18 @@ function RegistryControl($scope, $http, $modal) {
     if ($scope.add_registry.id) {
       url += '/' + $scope.add_registry.id;
     }
-     $http.post(url, $scope.add_registry).success(function(data) {
+     $http.post(url, $scope.add_registry).then(function(data) {
         $scope.load_registries();
+     }, function(data){
+        commons.showError(data);
      });
   };
 
   $scope.remove_registry = function(registry) {
-    $http.delete("/registry/" + String(registry.id)).success(function(){
+    $http.delete("/registry/" + String(registry.id)).then(function(){
         $scope.load_registries();
+    }, function(data){
+        commons.showError(data);
     });
   }
 
