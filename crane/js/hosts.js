@@ -4,7 +4,7 @@ angular.module('crane')
 
 .controller('HostController', HostController);
 
-HostController.$inject = ['$scope', '$http', '$modal'];
+HostController.$inject = ['$scope', '$http', '$modal', 'commons'];
 
 function Host(name, host, username, sshkey, password) {
   this.name = name;
@@ -25,7 +25,7 @@ function cloneHost(from, to) {
   return to;
 }
 
-function HostController($scope, $http, $modal) {
+function HostController($scope, $http, $modal, commons) {
   $scope.add_host = { 'host': new Host() };
 
   $scope.load_hosts = load_hosts;
@@ -90,24 +90,11 @@ function HostController($scope, $http, $modal) {
     $scope.edit_host(new Host());
   };
 
-  function showError(reason) {
-     var modalInstance = $modal.open({
-      templateUrl: '/frontend/error.jade',
-      controller: function($scope, $modalInstance) {
-        $scope.reason = reason.data;
-
-        $scope.close = function () {
-          $modalInstance.dismiss('close');
-        };
-      },
-    });
-  };
-
   function save_new_host($event) {
     if ($scope.add_host.host.id) {
-      $http.post("/host/" + String($scope.add_host.host.id), $scope.add_host.host).then(function(reason){}, function(reason){showError(reason)});
+      $http.post("/host/" + String($scope.add_host.host.id), $scope.add_host.host).then(function(reason){}, function(reason){commons.showError(reason);});
     } else {
-      $http.post("/host", $scope.add_host.host).then(function(data){}, function(data){showError(data)});
+      $http.post("/host", $scope.add_host.host).then(function(reason){}, function(reason){commons.showError(reason)});
     }
     $scope.load_hosts();
   }
