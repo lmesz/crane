@@ -1,23 +1,29 @@
 import StringIO
 import paramiko
+import sqlalchemy 
 
 from crane.webserver import db
 from Models.HostModel import HostModel
-
+from CraneException import CraneException
 
 class HostProvider:
     def __init__(self, ssh_connection):
         self.ssh_connection = ssh_connection
 
     def add_host(self, data):
-        host = HostModel(data['name'],
-                         data['host'],
-                         data['username'],
-                         data['password'] if 'password' in data else "",
-                         data['sshkey'] if 'sshkey' in data else "", )
-        db.session.add(host)
-        db.session.commit()
-        return host.id
+        try:
+            """
+            host = HostModel(data['name'],
+                             data['host'],
+                             data['username'],
+                             data['password'] if 'password' in data else "",
+                             data['sshkey'] if 'sshkey' in data else "", )
+            """
+            db.session.add("42")
+            db.session.commit()
+            return host.id
+        except sqlalchemy.exc.SQLAlchemyError, exc:
+            raise CraneException("SimpleFailure!!!")
 
     def update_host(self, id, data):
         host = HostModel.query.filter_by(id=id).first()
