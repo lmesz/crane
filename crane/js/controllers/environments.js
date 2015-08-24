@@ -19,6 +19,10 @@ function EnvironmentsController($scope, $http, $modal) {
         $scope.environment = {};
 
         $scope.ok = function () {
+          if(!$scope.environment.name) {
+            $scope.errorText = 'Name is required!';
+            return false;
+          }
           $modalInstance.close($scope.environment);
         };
 
