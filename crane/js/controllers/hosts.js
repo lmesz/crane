@@ -58,11 +58,18 @@ function HostController($scope, $http, $modal) {
         $scope.confirmText = host.id ? 'Edit' : 'Add';
 
         $scope.ok = function () {
-          if (!duplicated()) {
-            $modalInstance.close(cloneHost($scope.host, host));
-          } else {
-            $scope.errorText = 'Duplicated name or host.';
+
+          if (!$scope.host.name || !$scope.host.host || !$scope.host.username) {
+            $scope.errorText = 'Name, host and username are required!';
+            return false;
           }
+
+          if (duplicated()) {
+            $scope.errorText = 'Duplicated name or host.';
+            return false;
+          }
+
+          $modalInstance.close(cloneHost($scope.host, host));
         };
 
         $scope.cancel = function () {
@@ -70,13 +77,12 @@ function HostController($scope, $http, $modal) {
         };
 
         function duplicated() {
-          var ret = false;
-          for (var i = $scope.hosts.length - 1; i >= 0 && !ret; i--) {
+          for (var i = $scope.hosts.length - 1; i >= 0; i--) {
             if ($scope.hosts[i].id !== $scope.host.id && ($scope.hosts[i].host == $scope.host.host || $scope.hosts[i].name == $scope.host.name)) {
-              ret = true;
+              return true;
             }
           }
-          return ret;
+          return false;
         }
       },
       resolve: {
