@@ -43,6 +43,10 @@ function RegistryControl($scope, $http, $modal) {
         $scope.cancel = cancel;
 
         function ok() {
+          if (!$scope.add_registry.name || !$scope.add_registry.url || !$scope.add_registry.username || !$scope.add_registry.password || !$scope.add_registry.provider) {
+            $scope.errorText = "All the fields (name, url, username, password and provider) are required!"
+            return false
+          }
           $scope.add_registry.url = $scope.url_prefix + $scope.url;
           $modalInstance.close($scope.add_registry);
         }
@@ -83,6 +87,10 @@ function RegistryControl($scope, $http, $modal) {
         $scope.cancel = cancel;
 
         function ok() {
+          if (!$scope.add_registry.name || !$scope.add_registry.url || !$scope.add_registry.username || !$scope.add_registry.password || !$scope.add_registry.provider) {
+            $scope.errorText = "All the fields (name, url, username, password and provider) are required!"
+            return false
+          }
           $scope.add_registry.url = $scope.url_prefix + $scope.url;
           $modalInstance.close($scope.add_registry);
         }

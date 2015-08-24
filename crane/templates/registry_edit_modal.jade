@@ -1,27 +1,30 @@
 div.modal-header Add registry
 div.modal-cont
-  form.form-horizontal(role="form")
+  form.form-horizontal(role="form", novalidate)
     .input-group
       span.input-group-addon Name
-      input.form-control(ng-model="add_registry.name")
+      input.form-control(ng-model="add_registry.name", required)
 
     .input-group
       .input-group-btn.addon
         button.btn.btn-default.splitted(type='button', ng-click="url_prefix='http://'", ng-class="{'btn-primary' : url_prefix == 'http://'}") HTTP
         button.btn.btn-default.splitted(type='button', ng-click="url_prefix='https://'", ng-class="{'btn-primary' : url_prefix == 'https://'}") HTTPS
-      input.form-control(ng-model="url")
+      input.form-control(ng-model="add_registry.url", required)
 
     .input-group
       span.input-group-addon Username
-      input.form-control(ng-model="add_registry.username")
+      input.form-control(ng-model="add_registry.username", required)
 
     .input-group
       span.input-group-addon Password
-      input.form-control(ng-model="add_registry.password",type="password")
+      input.form-control(ng-model="add_registry.password",type="password", required)
 
     .input-group
       span.input-group-addon Provider
-      select.form-control(ng-options="provider for provider in providers" ng-model="add_registry.provider")
+      select.form-control(ng-options="provider for provider in providers" ng-model="add_registry.provider", required)
+
+    center
+      .error-message [[errorText]]
 
     .btn-modal-container
       .btn.btn-large.btn-default(ng-click="cancel()") Cancel
